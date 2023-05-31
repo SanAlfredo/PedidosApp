@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 
@@ -51,6 +55,7 @@ public class QueryActivity extends AppCompatActivity {
                     if (buscaIDPedido(cod)) {
                         //si existe cargarlo
                         cargarLista(cod);
+                        cargarQR(cod);
                     } else {
                         prod.ventanaMensaje(QueryActivity.this, "El código no se encuentra en la base de datos");
                     }
@@ -125,6 +130,30 @@ public class QueryActivity extends AppCompatActivity {
             Toast.makeText(getApplication(), "ERROR " + e,
                     Toast.LENGTH_SHORT).show();
             return false;
+        }
+    }
+    //funcion para cargar el QR
+    public void cargarQR(String[] cod) {
+        //instanciamos data base helper
+        DBHelper helper = new DBHelper(QueryActivity.this);
+        //instanciamos la libreria de sqlite
+        SQLiteDatabase db = helper.getReadableDatabase();
+        //generamos la consulta
+        String consulta = "select * from pedidos where codigo =?";
+        try {
+            //ejecutamos la consulta dentro un try catch por si hubiera algun error
+            Cursor c = db.rawQuery(consulta, cod);
+            if (c != null && c.getCount() > 0) {
+                c.moveToFirst();
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap bitmap = barcodeEncoder.encodeBitmap(c.getString(6), BarcodeFormat.QR_CODE, 750, 750);
+                imv1.setImageBitmap(bitmap);
+            } else {
+                edt1.setText("");
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplication(), "ERROR " + e,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

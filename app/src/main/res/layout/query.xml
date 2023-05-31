@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".QueryActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
             android:textSize="20sp"
             android:textStyle="bold|italic" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Código del pedido"
                 android:inputType="number"
-                android:textStyle="bold|italic"/>
+                android:textStyle="bold|italic" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,23 +56,16 @@
                 android:background="@android:drawable/ic_search_category_default" />
         </LinearLayout>
     </LinearLayout>
+
     <ListView
         android:id="@+id/list_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="40"/>
-    <LinearLayout
+        android:layout_weight="40" />
+
+    <ImageView
+        android:id="@+id/iv_qr_generado"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_qr_generado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
